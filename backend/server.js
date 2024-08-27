@@ -4,30 +4,20 @@ const port = 8080;
 const connectToDb = require('./database.js')
 connectToDb();
 
-const UserCollection = require('./models/User')
 
+// all routes files
+let userRoutes = require('./routes/userRoutes')
 app.use(express.json());
 
 app.get('/', (req,res)=>{
     res.send('welcome page')
 })
+app.use('/user',userRoutes)
 
-app.post('/register', async(req,res)=>{
-    const {name, email, password}= req.body;
 
-    try{
-        let data = await UserCollection.create({
-            name:name,
-            email,
-            password
-          })
-         return res.json({msg:"user registered successfully", data, success:true})
 
-        }catch (error) {
-       return res.json({msg:"error in creating user", data, success:false, error:error.errmsb})
-        
-    }
-})
+
+
 
 app.listen(port, ()=>{
     // console.log('server is running at port ' + port)
