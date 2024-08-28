@@ -28,9 +28,37 @@ const getAllusers = async(req, res)=>{
     }
 }
 
+// delete user data from the database-------
+const deleteUsers = async (req, res)=>{
+    let id = req.params._id
+    console.log(id) 
+    let data = await UserCollection.findByIdAndDelete(id)
+    try{
+        return res.json({msg:"user delete successfully", success:true})
+    }catch(error){
+        return res.json({msg:"error in deleteing user", success:false})
+    }
+}
+const updateUsers= async(req, res)=>{
+    let id = req.params._id
+    let {name,email,password} = req.body
+
+    await UserCollection.findByIdAndUpdate(id, {$set:{name,email,password}})
+    try{
+        return res.json({msg:'user data updated', success:true})
+    }catch(error){
+        return res.json({msg:"error in updating user", success:true})
+    }
+
+}
+
+
+
 // exports the variables functions------
 module.exports = {
     registerUser,
-    getAllusers
+    getAllusers,
+    deleteUsers,
+    updateUsers
    
 }

@@ -12,6 +12,7 @@ app.use(express.json());
 app.get('/', (req,res)=>{
     res.send('welcome page')
 })
+
 app.use('/user',userRoutes)
 
 
