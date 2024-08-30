@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const userSchema =  new mongoose.Schema({
     name:{
         type:String,
-        minlength:3,
+        minlength:2,
         required:true,
         trim:true   // it's remove the whitespace from name
     },
