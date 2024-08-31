@@ -61,11 +61,17 @@ const updateUsers= async(req, res)=>{
     let id = req.params._id
     let {name,email,password} = req.body
 
-    await UserCollection.findByIdAndUpdate(id, {$set:{name,email,password}})
     try{
-        return res.json({msg:'user data updated', success:true})
+        let hashedPassword;
+    if(password){
+        hashedPassword = bcrypt.hashSync(password,salt)
+    }
+
+    let data = await UserCollection.findByIdAndUpdate(id, {$set:{name:name,email:email,password:hashedPassword}},{new:true})
+
+        return res.json({msg:'user data updated', success:true,data})
     }catch(error){
-        return res.json({msg:"error in updating user", success:true})
+        return res.json({msg:"error in updating user", success:true,error:error.message})
     }
 }
 
